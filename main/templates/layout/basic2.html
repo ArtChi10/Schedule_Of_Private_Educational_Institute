@@ -1,0 +1,59 @@
+{% load static %} <!-- загружаем css -->
+{% load bootstrap4 %}
+<!doctype html>
+<html lang="ru"> <!-- Включаем русский язык -->
+<head> <!-- помогаем браузеру в работе с данными -->
+    <meta charset="UTF-8"> <!-- необходимая кодировка -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"><!-- настройка видимой пользователю области веб-страницы -->
+    <title>{% block title %}Главная{% endblock %}</title> <!-- пихаем сюда название страницы -->
+    {% bootstrap_css %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/main.css' %}">
+    {% bootstrap_javascript jquery='slim' %}
+ <style>
+            @font-face {
+    font-family: Jost-Light; /* Гарнитура шрифта */
+    src: url('/main/static/main/Jost-Light.ttf'); /* Путь к файлу со шрифтом */
+   }
+            h2 {
+                font-family: Jost-Light, cursiv, serif;}
+             h3 {
+                font-family: Jost-Light, cursiv, serif;}
+             li {
+                font-family: Jost-Light, cursiv, serif;}
+            .aside__logo-text{
+                font-family: Jost-Light, cursiv, serif;}
+            </style>
+</head>
+<body> <!-- основное тело страницы -->
+    <aside class="aside"> <!-- Боковая панель -->
+         <button class="aside__switch" aria-label="Aside show/collapse switcher">
+      <span class="aside__switch-bar"></span>
+    </button>
+          <div class="aside__logo">
+        <img class="aside__logo-img" src="{% static 'main/img/../../static/main/css/Logo3.jpg' %}" alt="Лого"> <!-- Подключил логотип из static -->
+        <span class="aside__logo-text">Дневник</span> <!-- Хочу сюда вписывать название стадии проекта  -->
+          </div>
+
+        <ul class="aside__menu">
+           <li class="aside__menu-item"><a href="#"><i class="fas fa-paper-plane"></i><span class="aside__menu-text">Главная</span> </a></li>  <!-- Ссылка на Главную страницу -->
+           <li class="aside__menu-item"><a href="#"><i class="fas fa-user-friends"></i> <span class="aside__menu-text">Личный кабинет</span></a> </li>
+             <li class="aside__menu-item"><a href="#"><i class="fas fa-paper-plane"></i>  <span class="aside__menu-text"> Сообщения </span> </a></li><!-- по нажатию кнопки переходим на страницы расписаний -->
+            <li class="aside__menu-item"><a href="#"><i class="fas fa-user-friends"></i><span class="aside__menu-text">Зачетные книжки</span> </a> </li>
+           <li class="aside__menu-item"><a href="#"><i class="fas fa-user-friends"></i> <span class="aside__menu-text">Расписание</span> </a></li>
+             <li class="aside__menu-item"><a href="#"><i class="fas fa-paper-plane"></i>  <span class="aside__menu-text"> Сообщения </span> </a></li><!-- по нажатию кнопки переходим на страницы расписаний -->
+            <li class="aside__menu-item"><a href="#"><i class="fas fa-user-friends"></i><span class="aside__menu-text">Зачетные книжки</span> </a> </li>
+           <li class="aside__menu-item"><a href="#"><i class="fas fa-user-friends"></i> <span class="aside__menu-text">Расписание</span> </a></li>
+            <li class="aside__menu-item"><a href="#"><i class="fas fa-user-friends"></i>  <span class="aside__menu-text"> Уведомления </span> </a></li>
+            <li class="aside__menu-item"><a href="#"><i class="fas fa-user-friends"></i> <span class="aside__menu-text">Вопросы</span> </a></li> <!-- Переход на страницу для вопросов -->
+        </ul>
+    </aside>
+    <main class="main">
+        {% block content %} <!-- Блок контента -->
+        {% endblock %}
+    </main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="{% static 'main/js/aside.js' %}"></script>
+<script src="{% static 'main/js/card.js' %}"></script>
+<script src="{% static 'main/js/mess.js' %}"></script>
+</body>
+</html>

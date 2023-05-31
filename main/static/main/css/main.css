@@ -1,0 +1,31 @@
+body {
+    height: 100vh;
+    background-image: url("fon2.png");
+    background-size: cover;
+}
+
+header {
+    background: #08A166;
+    height: 15%;
+    display: flex;
+    align-items: center;
+}
+img.logo-img {
+    max-width: 100%;
+    height: 100%;
+}
+header h1 {
+    text-align: center;
+    margin: 0;
+    color: white;
+     flex-grow: 1;
+}
+.root {
+    font-size: larger;
+}
+img.main-image {
+    width: 300px;
+}
+img.additional-image {
+    width: 180px;
+}
