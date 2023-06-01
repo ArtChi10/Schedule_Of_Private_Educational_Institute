@@ -16,9 +16,25 @@ class Course(models.Model):
     name_of_course = models.CharField(verbose_name='Учебные курсы', max_length=20, default="")
     def __str__(self):
         return self.name_of_course
+    class Meta:
+        verbose_name = 'Курс'
+        verbose_name_plural = 'Курсы'
 class StudyGroup(models.Model):
     name_of_group = models.CharField(verbose_name="Учебные группы", max_length=15, default="")
     course = models.ForeignKey(Course, on_delete=models.CASCADE, default="1")
     def __str__(self):
         return self.name_of_group
+    class Meta:
+        verbose_name = 'Учебная группа'
+        verbose_name_plural = 'Учебные группы'
+
+class LessonName(models.Model):
+    name = models.CharField(max_length=50, verbose_name='Учебный предмет', default="Практика")
+
+    def __str__(self):
+        return self.name
+
+    class Meta:
+        verbose_name = 'Учебный предмет'
+        verbose_name_plural = 'Учебные предметы'
 
