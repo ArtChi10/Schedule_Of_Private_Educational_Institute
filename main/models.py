@@ -11,3 +11,9 @@ class AdvUser(AbstractUser):
     send_messages = models.BooleanField(default=True, verbose_name='Слать оповещения о новых комментариях?')
     class Meta(AbstractUser.Meta):
         pass
+
+class StudyGroup(models.Model):
+    name_of_group = models.CharField(verbose_name="Учебные группы", max_length=15, default="")
+    def __str__(self):
+        return self.name_of_group
+
