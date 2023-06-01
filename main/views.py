@@ -12,6 +12,7 @@ from django.urls import reverse_lazy
 from django.shortcuts import get_object_or_404
 from .models import AdvUser
 from .forms import ChangeUserInfoForm
+from django.contrib.auth.views import PasswordChangeView
 # Create your views here.
 def other_page(request, page):
     try:
@@ -52,3 +53,7 @@ class ChangeUserInfoView(SuccessMessageMixin, LoginRequiredMixin, UpdateView):
             queryset = self.get_queryset()
         return get_object_or_404(queryset, pk=self.user_id)
 
+class SchedulePasswordChangeView(SuccessMessageMixin, LoginRequiredMixin, PasswordChangeView):
+    template_name = 'main/password_change.html'
+    success_url = reverse_lazy('main:profile')
+    success_message = 'Пароль пользователя изменен'
