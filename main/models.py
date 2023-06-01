@@ -28,6 +28,7 @@ class StudyGroup(models.Model):
         verbose_name = 'Учебная группа'
         verbose_name_plural = 'Учебные группы'
 
+
 class LessonName(models.Model):
     name = models.CharField(max_length=50, verbose_name='Учебный предмет', default="Практика")
 
@@ -37,4 +38,17 @@ class LessonName(models.Model):
     class Meta:
         verbose_name = 'Учебный предмет'
         verbose_name_plural = 'Учебные предметы'
+
+
+class Teacher(models.Model):
+    user = models.OneToOneField(AdvUser, on_delete=models.CASCADE)
+    lesson_names = models.ManyToManyField(LessonName)
+    initials = models.CharField(null=True, blank=True, max_length=3)
+
+    def __str__(self):
+        return self.initials
+
+    class Meta:
+        verbose_name = 'Преподаватель'
+        verbose_name_plural = 'Преподаватели'
 
