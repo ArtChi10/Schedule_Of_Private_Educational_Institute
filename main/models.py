@@ -12,8 +12,13 @@ class AdvUser(AbstractUser):
     class Meta(AbstractUser.Meta):
         pass
 
+class Course(models.Model):
+    name_of_course = models.CharField(verbose_name='Учебные курсы', max_length=20, default="")
+    def __str__(self):
+        return self.name_of_course
 class StudyGroup(models.Model):
     name_of_group = models.CharField(verbose_name="Учебные группы", max_length=15, default="")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, default="1")
     def __str__(self):
         return self.name_of_group
 
