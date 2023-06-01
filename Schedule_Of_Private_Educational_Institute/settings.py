@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'main.apps.MainConfig',
     'bootstrap4',
+    'phonenumber_field',
 ]
 
 MIDDLEWARE = [
@@ -127,4 +128,4 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_ROOT = 'assets'
 
 LOGIN_REDIRECT_URL = '/'
-
+AUTH_USER_MODEL = 'main.AdvUser'
