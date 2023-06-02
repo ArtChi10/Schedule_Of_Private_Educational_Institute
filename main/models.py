@@ -52,3 +52,14 @@ class Teacher(models.Model):
         verbose_name = 'Преподаватель'
         verbose_name_plural = 'Преподаватели'
 
+
+class Student(models.Model):
+    user = models.OneToOneField(AdvUser, on_delete=models.CASCADE)
+    study_group = models.ForeignKey(StudyGroup, on_delete=models.PROTECT, verbose_name="Учебная группа")
+
+    def __str__(self):
+        return self.user.last_name
+    class Meta:
+        verbose_name = 'Студент'
+        verbose_name_plural = 'Студенты'
+
