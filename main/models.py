@@ -59,7 +59,20 @@ class Student(models.Model):
 
     def __str__(self):
         return self.user.last_name
+
     class Meta:
         verbose_name = 'Студент'
         verbose_name_plural = 'Студенты'
+
+
+class Classroom(models.Model):
+    number_of_classroom = models.CharField(max_length=5, verbose_name="Номер аудитории")
+
+    def __str__(self):
+        return self.number_of_classroom
+
+    class Meta:
+        verbose_name = 'Номер учебной аудитории'
+        verbose_name_plural = 'Номера учебных аудиторий'
+
 
