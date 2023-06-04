@@ -101,6 +101,7 @@ class Lesson(models.Model):
     def __str__(self):
         return str(self.lesson_name)
 
+
     def clean(self):
         count = Lesson.objects.filter(lesson_name=self.lesson_name, StudyGroup=self.name_of_group,
                                       classroom=self.classroom, teacher=self.teacher,
@@ -111,3 +112,13 @@ class Lesson(models.Model):
     def get_absolute_url(self):
         return f'/lessons/{self.id}'
 
+
+class HeadTeacher(models.Model):
+    user = models.OneToOneField(AdvUser, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.user
+
+    class Meta:
+        verbose_name = 'Заведующий учебной частью'
+        verbose_name_plural = "Заведущие учебной частью"
