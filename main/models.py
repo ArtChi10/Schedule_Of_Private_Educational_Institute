@@ -121,4 +121,4 @@ class HeadTeacher(models.Model):
 
     class Meta:
         verbose_name = 'Заведующий учебной частью'
-        verbose_name_plural = "Заведущие учебной частью"
+        verbose_name_plural = "Заведующие учебной частью"
