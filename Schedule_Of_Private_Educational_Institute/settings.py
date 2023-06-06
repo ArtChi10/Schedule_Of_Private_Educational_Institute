@@ -127,5 +127,7 @@ STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 STATIC_ROOT = 'assets'
 
-LOGIN_REDIRECT_URL = '/'
+# LOGIN_REDIRECT_URL = '/'
 AUTH_USER_MODEL = 'main.AdvUser'
+EMAIL_PORT = 1025
+

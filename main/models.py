@@ -56,11 +56,14 @@ class LessonName(models.Model):
 class Teacher(models.Model):
     user = models.OneToOneField(AdvUser, on_delete=models.CASCADE)
     lesson_names = models.ManyToManyField(LessonName)
-    initials = models.CharField(null=True, blank=True, max_length=3)
+    initials = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.initials
 
+    def save(self, *args, **kwargs):
+        self.initials = f"{self.user.last_name} {self.user.first_name[0]}{self.user.patronymic[0]}"
+        super().save(*args, **kwargs)
     class Meta:
         verbose_name = 'Преподаватель'
         verbose_name_plural = 'Преподаватели'
@@ -71,7 +74,7 @@ class Student(models.Model):
     study_group = models.ForeignKey(StudyGroup, on_delete=models.PROTECT, verbose_name="Учебная группа")
 
     def __str__(self):
-        return self.user.last_name
+        return self.user.last_name and self.user.first_name
 
     class Meta:
         verbose_name = 'Студент'
@@ -101,7 +104,6 @@ class Lesson(models.Model):
     def __str__(self):
         return str(self.lesson_name)
 
-
     def clean(self):
         count = Lesson.objects.filter(lesson_name=self.lesson_name, StudyGroup=self.name_of_group,
                                       classroom=self.classroom, teacher=self.teacher,
@@ -115,9 +117,14 @@ class Lesson(models.Model):
 
 class HeadTeacher(models.Model):
     user = models.OneToOneField(AdvUser, on_delete=models.CASCADE)
+    initials = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
-        return self.user
+        return self.initials
+
+    def save(self, *args, **kwargs):
+        self.initials = f"{self.user.last_name} {self.user.first_name[0]}{self.user.patronymic[0]}"
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name = 'Заведующий учебной частью'
