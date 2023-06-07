@@ -8,10 +8,10 @@ from datetime import datetime, date
 
 
 class AdvUser(AbstractUser):
-    patronymic = models.CharField(max_length=64, null=True, blank=True)
+    patronymic = models.CharField(max_length=64, null=True, blank=True, verbose_name='Отчество')
     email = models.EmailField(unique=True)
-    phone = PhoneNumberField(unique=True, help_text="Начни с +7")
-    avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True)
+    phone = PhoneNumberField(unique=True, help_text="Начни с +7", verbose_name='Номер телефона')
+    avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True, verbose_name='Аватар пользователя')
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name='Прошел активацию?')
     send_messages = models.BooleanField(default=True, verbose_name='Слать оповещения о новых комментариях?')
 

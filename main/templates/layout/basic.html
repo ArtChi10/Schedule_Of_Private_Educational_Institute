@@ -18,19 +18,20 @@
     </header>
     <div class="row">
         <ul class="col nav justify-content-end border">
+            {% if user.is_authenticated == False %}
             <li class="nav-item"><a class="nav-link" href="{% url 'main:register' %}">Регистрация</a></li>
+            {% endif %}
             {% if user.is_authenticated %}
             <li class="nav-item dropdown"><a class="nav-link dropdown-toggle" data-toggle="dropdown"
                                              href="#" role="button" aria-haspopup="true" aria-expanded="false">Профиль</a>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="{% url 'main:profile' %}">Ваше расписание</a>
+                    <a class="dropdown-item" href="{% url 'main:profile' %}">Ваш профиль</a>
                     <a class="dropdown-item" href="{% url 'main:profile_change' %}">Изменить личные данные</a>
                     <a class="dropdown-item" href="{% url 'main:password_change' %}">Изменить пароль</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="{% url 'main:logout' %}">Выйти</a>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item" href="#">Удалить</a>
-                    <a class="dropdown-item" href="#">Проверка</a>
                 </div>
             </li>
             {% else %}
@@ -49,7 +50,19 @@
             {% endfor %}
             <a class="nav-link root" href="{% url 'main:other' page='about' %}">О сайте</a>
             {% if user.is_authenticated and user.headteacher %}
-            <a class="nav-link root" href="{% url 'main:headcheck' %}">Проверка</a>
+                <a class="nav-link root" href="{% url 'main:headcheck' %}">Проверка</a>
+                <a class="nav-link root" href="#">Расписание</a>
+                <a class="nav-link root" href="#">Статистика</a>
+                <a class="nav-link root" href="#">Пользователи</a>
+                <a class="nav-link root" href="#">Объявления</a>
+                <a class="nav-link root" href="#">Вопросы</a>
+                <a class="nav-link root" href="#">Уведомления</a>
+                <a class="nav-link root" href="#">Настройка элементов УП</a>
+            {% elif user.is_authenticated and user.student %}
+                <a class="nav-link root" href="#">Мое расписание</a>
+                <a class="nav-link root" href="#">Уведомления</a>
+                <a class="nav-link root" href="#">Вопросы</a>
+                <a class="nav-link root" href="#">Объявления</a>
             {% endif %}
         </nav>
         <section class="col border py-2">
