@@ -1,11 +1,35 @@
 {% extends "layout/basic.html" %}
 {% block title %}Профиль пользователя{% endblock %}
 {% block content %}
-    <h2>Профиль пользователя {{ user.username }}</h2>
-    {% if user.first_name and user.last_name %}
-    <p>Здравствуйте, {{ user.first_name }} {{ user.last_name }}!</p>
+    {% if user.avatar %}
+        <img src="{{ user.avatar.url }}">
     {% else %}
-    <p>Здравствуйте!</p>
+        <img src="/static/main/img/avatar.png" style="width:100px; " >
     {% endif %}
-    <h3>Ваше расписание</h3>
+    <h4>ФИО : </h4>
+        {% if user.first_name and user.last_name %}
+            <i>{{ user.last_name }} {{ user.first_name }} {{ user.patronymic }}</i>
+        {% else %}
+         ----
+        {% endif %}
+    <h4>Имя пользователя :</h4>
+        <i>{{ user.username }}</i>
+    <h4>Роль :</h4>
+    {% if user.headteacher %}
+        Заведующий учебной частью
+    {% elif user.student %}
+            Студент
+        <h4>Учебный курс : {{ user.student.study_group.course }} </h4>
+            <h4>Учебная группа : {{ user.student.study_group }}</h4>
+    {% elif user.teacher %}
+        Преподаватель
+        <h4>Предметы: </h4>
+        {% for el in user.teacher.get_lesson_names %}
+            <i>{{ el }},</i>
+        {% endfor %}
+    {% endif %}
+    <h4>Адрес электронной почты :</h4>
+    {{ user.email }}
+    <h4>Номер мобильного телефона :</h4>
+    {{ user.phone }}
 {% endblock %}

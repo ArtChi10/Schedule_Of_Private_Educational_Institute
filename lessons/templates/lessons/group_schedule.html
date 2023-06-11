@@ -1,0 +1,36 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% block title %}Расписание {{ group.name_of_group }}{% endblock %}
+{% block content %}
+    <h3>Расписание группы {{ group.name_of_group }}</h3>
+    <br>
+    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ prev_date }}" type="button" class="btn btn-success"> Предыдущая неделя </a>
+    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ n_now_date }}"  type="button" class="btn btn-info"> Сегодня </a>
+    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ next_date }}" type="button" class="btn btn-success"> Следующая неделя </a>
+    <br>
+    <div class="row">
+
+{% if lessons_for_days  %}
+     {% for ell, num in lessons_for_days.items %}
+         <div class="card" style="width: 18rem;">
+            <div class="card-header">
+                <h3>{{ ell|date:"l" }}</h3>
+            </div>
+          <ul class="list-group list-group-flush">
+            {% for el in num %}
+              <li class="list-group-item"> {{ el.number_of_slot }} . {{ el.lesson_name }} ({{ el.teacher }})  {{ el.classroom }}</li>
+                {{ el.date_of_lesson }}
+            {% endfor %}
+          </ul>
+         </div>
+    {% endfor %}
+    {% else %}
+    <h1>Нет уроков</h1>
+    {% endif %}
+
+</div>
+<br>
+<br>
+<br>
+
+{% endblock %}

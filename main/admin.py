@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import AdvUser, HeadTeacher, Teacher
-from .models import Student, StudyGroup, Course, Classroom, LessonName
+from .models import Student, StudyGroup, Course, LessonName
 
 
 # Register your models here.
@@ -8,7 +8,7 @@ class AdvUserAdmin(admin.ModelAdmin):
     list_display = ('last_name', 'first_name', 'patronymic', '__str__', 'is_activated', 'date_joined')
     search_fields = ('username', 'email', 'first_name', 'last_name')
     fields = (('username', 'email', 'phone'), ('first_name', 'last_name', 'patronymic'),
-                'avatar', ('send_messages', 'is_active', 'is_activated'),
+              'avatar', ('send_messages', 'is_active', 'is_activated'),
               ('is_staff', 'is_superuser'),
               'groups', 'user_permissions',
               ('last_login', 'date_joined'))
@@ -17,6 +17,7 @@ class AdvUserAdmin(admin.ModelAdmin):
 
 class StudyGroupAdmin(admin.ModelAdmin):
     list_display = 'course', 'name_of_group'
+
 
 class StudentAdmin(admin.ModelAdmin):
     list_display = ('study_group', 'user')

@@ -40,6 +40,10 @@ INSTALLED_APPS = [
     'main.apps.MainConfig',
     'bootstrap4',
     'phonenumber_field',
+    'lessons',
+    'django_cleanup',
+    'easy_thumbnails',
+    'additional_information',
 ]
 
 MIDDLEWARE = [
@@ -131,3 +135,15 @@ STATIC_ROOT = 'assets'
 AUTH_USER_MODEL = 'main.AdvUser'
 EMAIL_PORT = 1025
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
+
+THUMBNAIL_ALIASES = {
+    '': {
+        'default': {
+            'size': (96, 96),
+            'crop': 'scale',
+        },
+    },
+}
+THUMBNAIL_BASEDIR = 'thumbnails'

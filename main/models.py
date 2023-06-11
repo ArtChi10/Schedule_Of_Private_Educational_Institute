@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from phonenumber_field.modelfields import PhoneNumberField
 from django.core.exceptions import ValidationError
 from datetime import datetime, date
+from .utilities import get_timestamp_path
 
 # Create your models here.
 
@@ -11,9 +12,15 @@ class AdvUser(AbstractUser):
     patronymic = models.CharField(max_length=64, null=True, blank=True, verbose_name='Отчество')
     email = models.EmailField(unique=True)
     phone = PhoneNumberField(unique=True, help_text="Начни с +7", verbose_name='Номер телефона')
-    avatar = models.ImageField(upload_to='user_avatars', blank=True, null=True, verbose_name='Аватар пользователя')
+    avatar = models.ImageField(blank=True, upload_to='get_timestamp_path', verbose_name='Аватар пользователя')
     is_activated = models.BooleanField(default=True, db_index=True, verbose_name='Прошел активацию?')
     send_messages = models.BooleanField(default=True, verbose_name='Слать оповещения о новых комментариях?')
+
+    def get_full_name(self):
+        full_name = f"{self.last_name} {self.first_name}"
+        if self.patronymic:
+            full_name += f" {self.patronymic}"
+        return full_name
 
     class Meta(AbstractUser.Meta):
         pass
@@ -24,6 +31,7 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name_of_course
+
 
     class Meta:
         verbose_name = 'Курс'
@@ -43,10 +51,10 @@ class StudyGroup(models.Model):
 
 
 class LessonName(models.Model):
-    name = models.CharField(max_length=50, verbose_name='Учебный предмет', default="Практика")
+    lesson_name = models.CharField(max_length=50, verbose_name='Учебный предмет', default="Практика")
 
     def __str__(self):
-        return self.name
+        return self.lesson_name
 
     class Meta:
         verbose_name = 'Учебный предмет'
@@ -64,6 +72,10 @@ class Teacher(models.Model):
     def save(self, *args, **kwargs):
         self.initials = f"{self.user.last_name} {self.user.first_name[0]}{self.user.patronymic[0]}"
         super().save(*args, **kwargs)
+
+    def get_lesson_names(self):
+        return self.lesson_names.all()
+
     class Meta:
         verbose_name = 'Преподаватель'
         verbose_name_plural = 'Преподаватели'
@@ -79,40 +91,6 @@ class Student(models.Model):
     class Meta:
         verbose_name = 'Студент'
         verbose_name_plural = 'Студенты'
-
-
-class Classroom(models.Model):
-    number_of_classroom = models.CharField(max_length=5, verbose_name="Номер аудитории")
-
-    def __str__(self):
-        return self.number_of_classroom
-
-    class Meta:
-        verbose_name = 'Номер учебной аудитории'
-        verbose_name_plural = 'Номера учебных аудиторий'
-
-
-class Lesson(models.Model):
-    lesson_name = models.ForeignKey(LessonName, on_delete=models.CASCADE, verbose_name='Предмет', null=True)
-    name_of_group = models.ForeignKey(StudyGroup, on_delete=models.CASCADE, verbose_name='Учебная группа', null=True)
-    classroom = models.ForeignKey(Classroom, on_delete=models.CASCADE, null=True, verbose_name="Учебная аудитория")
-    teacher = models.ForeignKey(Teacher, on_delete=models.CASCADE, verbose_name='Преподаватель', null=True)
-    date_of_lesson = models.DateField('Дата урока')
-    number_of_slot = models.IntegerField('Порядковый номер учебного занятия')
-    info_for_lesson = models.TextField(null=True, blank=True)
-
-    def __str__(self):
-        return str(self.lesson_name)
-
-    def clean(self):
-        count = Lesson.objects.filter(lesson_name=self.lesson_name, StudyGroup=self.name_of_group,
-                                      classroom=self.classroom, teacher=self.teacher,
-                                      date_of_lesson=self.date_of_lesson, number_of_slot=self.number_of_slot).count()
-        if count > 0:
-            raise ValidationError("Неправильно заполненное занятие")
-
-    def get_absolute_url(self):
-        return f'/lessons/{self.id}'
 
 
 class HeadTeacher(models.Model):

@@ -17,6 +17,10 @@ from django.contrib.auth.views import PasswordChangeView
 from .models import HeadTeacher
 from django.core.signing import BadSignature
 from .utilities import signer
+from django.views.generic.edit import DeleteView
+from django.contrib.auth import logout
+from django.contrib import messages
+
 
 # Create your views here.
 def other_page(request, page):
@@ -77,6 +81,29 @@ class RegisterUserView(CreateView):
 class RegisterDoneView(TemplateView):
     template_name = 'main/register_done.html'
 
+
+class DeleteUserView(LoginRequiredMixin, DeleteView):
+    model = AdvUser
+    template_name = 'main/delete_user.html'
+    success_url = reverse_lazy('main:index')
+
+    def setup(self, request, *args, **kwargs):
+        self.user_id = request.user.pk
+        return super().setup(request, *args, **kwargs)
+
+    def post(self, request, *args, **kwargs):
+        logout(request)
+        messages.add_message(request, messages.SUCCESS, 'Пользователь удален')
+        return super().post(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        if not queryset:
+            queryset = self.get_queryset()
+        return get_object_or_404(queryset, pk=self.user_id)
+
+
+
+
 def user_activate(request, sign):
     try:
         username = signer.unsign(sign)
@@ -91,6 +118,7 @@ def user_activate(request, sign):
         user.is_activated = True
         user.save()
     return render(request, template)
+
 
 def head_teacher_required(view_func):
     decorated_view_func = user_passes_test(

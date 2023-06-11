@@ -1,0 +1,28 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% block title %} Вопросы {% endblock %}
+{% block content %}
+        <div class="features">
+        <div id="news">
+        <h2>Вопросы от пользователей</h2>
+        <hr id="line">
+            <div class="row">
+        {% if questions %}
+                {% for el in questions %} <!-- Перебираем элементы Advs -->
+                        <div class="teaser">
+                            <h4>{{ el.topic }}</h4>
+                            <h6>{{ el.FIO }}</h6>
+                            <h6>{{ el.published|date:"d.m.Y" }}</h6>
+                            <div class="info">
+                                <p>{{ el.text }}</p>
+                                <a class="nav-link root" href="#">Ответить</a>
+                            </div>
+                        </div>
+                {% endfor %} <!-- Закрываем цикл -->
+            {% else %}  <!-- В случае есть таблица объявлений пуста-->
+                <h2>Вопросов пока нет</h2> <!-- Текст сообщения -->
+            {% endif %} <!-- Закрываем if -->
+            </div>
+        </div>
+        </div>
+{% endblock %} <!-- закрываем блок контента-->
