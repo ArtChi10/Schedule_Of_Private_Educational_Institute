@@ -1,0 +1,23 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% block title %} Главная {% endblock %}  <!-- Вставляем нужное название в блок -->
+{% block content %}
+    <h1>Важная информация</h1>
+            <hr id="line">
+            <div class="row"> <!-- удобно распределяет карточки в зависимости от размера экрана -->
+            {% if advs %}
+                {% for el in advs %}
+                        <div class="teaser">
+                            <h4>{{ el.title }}</h4>
+                            <h6>{{ el.published|date:"d.m.Y" }}</h6>
+                            <div class="info">
+                                <p>{{ el.content }}</p>
+                            </div>
+                        </div>
+
+                {% endfor %} <!-- Закрываем цикл -->
+            {% else %}  <!-- В случае есть таблица объявлений пуста-->
+                <h2 style="margin-left: 20px;">Объявлений пока нет</h2> <!-- Текст сообщения -->
+            {% endif %}
+            </div>
+{% endblock %}

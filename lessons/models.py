@@ -23,29 +23,31 @@ class Lesson(models.Model):
     date_of_lesson = models.DateField('Дата урока')
     number_of_slot = models.IntegerField('Порядковый номер учебного занятия')
     info_for_lesson = models.TextField(null=True, blank=True)
+    is_editing = models.BooleanField(default=False)
 
     def __str__(self):
         return str(self.lesson_name)
 
     def clean(self):
+        if not self.is_editing:
         # Проверяем, есть ли уже занятия для других групп в указанной аудитории и дате
-        existing_lessons = Lesson.objects.filter(name_of_group=self.name_of_group,
+            existing_lessons = Lesson.objects.filter(name_of_group=self.name_of_group,
                                                  date_of_lesson=self.date_of_lesson,
                                                  number_of_slot=self.number_of_slot)
-        if existing_lessons.exists():
-            raise ValidationError("У данной группы в это время есть уже занятие")
-        existing_lessons = Lesson.objects.filter(teacher=self.teacher,
+            if existing_lessons.exists():
+                raise ValidationError("У данной группы в это время есть уже занятие")
+            existing_lessons = Lesson.objects.filter(teacher=self.teacher,
                                                  date_of_lesson=self.date_of_lesson,
                                                  number_of_slot=self.number_of_slot
                                                  )
-        if existing_lessons.exists():
-            raise ValidationError("У преподавателя в этот момент другое занятие")
-        existing_lessons = Lesson.objects.filter(classroom=self.classroom,
+            if existing_lessons.exists():
+                raise ValidationError("У преподавателя в этот момент другое занятие")
+            existing_lessons = Lesson.objects.filter(classroom=self.classroom,
                                                  date_of_lesson=self.date_of_lesson,
                                                  number_of_slot=self.number_of_slot
                                                  )
-        if existing_lessons.exists():
-            raise ValidationError("Данная аудитория в этот момент занята")
+            if existing_lessons.exists():
+                raise ValidationError("Данная аудитория в этот момент занята")
 
     def get_absolute_url(self):
         return f'/lessons/{self.id}'

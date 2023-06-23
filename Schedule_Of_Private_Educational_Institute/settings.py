@@ -44,6 +44,8 @@ INSTALLED_APPS = [
     'django_cleanup',
     'easy_thumbnails',
     'additional_information',
+    'datetimepicker',
+'bootstrap_datepicker_plus',
 ]
 
 MIDDLEWARE = [

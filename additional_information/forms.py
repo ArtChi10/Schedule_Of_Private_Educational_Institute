@@ -1,5 +1,5 @@
 from django.forms import ModelForm, TextInput, Textarea, EmailInput #Подключаем модули для ввода данных
-from .models import Questions # подключаем модель Questuons приложения main
+from .models import Questions, Advertisement # подключаем модель Questuons приложения main
 from main.models import AdvUser
 
 
@@ -29,4 +29,17 @@ class QuestionsForm(ModelForm):   # Создаем Форму вопроса
                 'class': 'form-control',
                 'placeholder': 'Номер телефона'
             })
+        }
+
+
+class AdvertisementForm(ModelForm):
+    class Meta:
+        model = Advertisement
+        fields = ['title', 'content']
+        labels = {
+            'title': 'Тема',
+            'content': 'Содержание'
+        }
+        widgets = {
+            'content': Textarea(attrs={'rows': 4})  # Настройка виджета для текстового поля "content"
         }

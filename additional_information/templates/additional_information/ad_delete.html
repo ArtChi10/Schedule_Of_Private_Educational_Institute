@@ -1,0 +1,15 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Подтверждение удаления объявления{% endblock %}
+
+{% block content %}
+  <h2>Подтверждение удаления объявления</h2>
+  <p>Вы уверены, что хотите удалить объявление "{{ object.title }}"?</p>
+    <p>Содержание : {{ object.content }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'additional_information:ad_workplace' %}" class="btn btn-secondary">Отмена</a>
+  </form>
+{% endblock %}

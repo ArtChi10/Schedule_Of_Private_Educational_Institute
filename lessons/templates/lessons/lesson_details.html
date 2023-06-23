@@ -1,0 +1,34 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% block title %}Редактирование урока{% endblock %}
+{% block content %}
+    <div class="row">
+        <div class="col-md-6">
+            <h1>Форма редактирования урока</h1>
+            <form method="post">
+                {% csrf_token %}
+                {% bootstrap_form form layout='horizontal' %}
+                {% buttons submit='Сохранить' %}{% endbuttons %}
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <p>{{ error }}</p>
+                            {% endfor %}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            </form>
+        </div>
+        <div class="col-md-6">
+            <h2>Данные урока:</h2>
+            <p>Предмет: {{ form.instance.lesson_name }}</p>
+            <p>Учебная группа: {{ form.instance.name_of_group }}</p>
+            <p>Учебная аудитория: {{ form.instance.classroom }}</p>
+            <p>Преподаватель: {{ form.instance.teacher }}</p>
+            <p>Дата занятия: {{ form.instance.date_of_lesson }}</p>
+            <p>Порядковый номер учебного занятия: {{ form.instance.number_of_slot }}</p>
+            <p>Флаг редактирования: {{ form.instance.is_editing }}</p>
+        </div>
+    </div>
+{% endblock %}

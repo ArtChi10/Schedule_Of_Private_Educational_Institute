@@ -1,0 +1,41 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% block title %}Профиль пользователя{% endblock %}
+{% block content %}
+    <h1>Страница пользователя : {{ user_profile.username }}</h1>
+    <a href="{% url 'main:user_search' %}"><button type="submit" class="btn btn-info" style="border: 1px solid #000;color: black; text-decoration: none;">Назад</button>
+            </a>
+    <br>
+    <br>
+    {% if user_profile.avatar %}
+        <img src="{{ user_profile.avatar.url }}">
+    {% else %}
+        <img src="/static/main/img/avatar.png" style="width:100px;">
+    {% endif %}
+    <h4>ФИО : </h4>
+        {% if user_profile.first_name and user_profile.last_name %}
+            <i>{{ user_profile.last_name }} {{ user_profile.first_name }} {{ user_profile.patronymic }}</i>
+        {% else %}
+         ----
+        {% endif %}
+    <h4>Имя пользователя :</h4>
+        <i>{{ user_profile.username }}</i>
+    <h4>Роль :</h4>
+    {% if user_profile.headteacher %}
+        Заведующий учебной частью
+    {% elif user_profile.student %}
+        Студент
+        <h4>Учебный курс : {{ user_profile.student.study_group.course }} </h4>
+        <h4>Учебная группа : {{ user_profile.student.study_group }}</h4>
+    {% elif user_profile.teacher %}
+        Преподаватель
+        <h4>Предметы: </h4>
+        {% for el in user_profile.teacher.get_lesson_names %}
+            <i>{{ el }},</i>
+        {% endfor %}
+    {% endif %}
+    <h4>Адрес электронной почты :</h4>
+    {{ user_profile.email }}
+    <h4>Номер мобильного телефона :</h4>
+    {{ user_profile.phone }}
+{% endblock %}

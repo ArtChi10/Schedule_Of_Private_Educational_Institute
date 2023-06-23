@@ -1,0 +1,70 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Поиск пользователей{% endblock %}
+
+{% block content %}
+  <h1>Поиск пользователей</h1>
+
+  <form method="GET" action="{% url 'main:user_search' %}">
+    <div class="form-group">
+      <label for="query">Поиск по имени или фамилии:</label>
+      <input type="text" class="form-control" id="query" name="query" value="{{ query }}">
+    </div>
+
+    <div class="form-group">
+      <label for="role">Поиск по роли:</label>
+      <select class="form-control" id="role" name="role">
+        <option value="">Все</option>
+        <option value="student" {% if role_query == 'student' %}selected{% endif %}>Студент</option>
+        <option value="teacher" {% if role_query == 'teacher' %}selected{% endif %}>Преподаватель</option>
+        <option value="head_teacher" {% if role_query == 'head_teacher' %}selected{% endif %}>Заведующий учебной частью</option>
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Поиск</button>
+  </form>
+
+  <br>
+
+  <h2>Результаты поиска:</h2>
+
+  {% if users %}
+    <table class="table">
+      <thead>
+        <tr>
+            <th>Фамилия</th>
+          <th>Имя</th>
+          <th>Отчество</th>
+          <th>Роль</th>
+          <th>Действия</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in users %}
+          <tr>
+            <td>{{ user.last_name }}</td>
+            <td>{{ user.first_name }}</td>
+            <td>{{ user.patronymic }}</td>
+            <td>
+              {% if user.student %}
+                Студент
+              {% elif user.teacher %}
+                Преподаватель
+              {% elif user.headteacher %}
+                Заведующий учебной частью
+              {% else %}
+                -
+              {% endif %}
+            </td>
+            <td>
+              <a href="{% url 'main:profile_view' pk=user.id %}" class="btn btn-primary btn-sm">Подробнее</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>Ничего не найдено.</p>
+  {% endif %}
+{% endblock %}

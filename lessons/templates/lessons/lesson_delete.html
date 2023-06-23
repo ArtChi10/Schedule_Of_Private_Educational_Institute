@@ -1,0 +1,16 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+
+{% block title %}Подтверждение удаления урока{% endblock %}
+
+{% block content %}
+  <h2>Подтверждение удаления урока</h2>
+  <p>Вы уверены, что хотите удалить урок "{{ object.lesson_name }}"?</p>
+    <p>Учебная группа : {{ object.name_of_group }}</p>
+    <p>Дата : {{ object.date_of_lesson }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Удалить</button>
+    <a href="{% url 'lessons:lesson_home' %}" class="btn btn-secondary">Отмена</a>
+  </form>
+{% endblock %}

@@ -1,10 +1,13 @@
 {% extends "layout/basic.html" %}
-{% block title %}О сайте{% endblock %}
+{% load bootstrap4 %}
+{% block title %}Добавление урока{% endblock %}
 {% block content %}
     <h1>Форма по добавлению урока</h1>
        <form method="post">
+
     {% csrf_token %}
-    {{ form.as_p }}
+     {% bootstrap_form form layout='horizontal' %}
+        {% buttons submit='Создать' %}{% endbuttons %}
     {% if form.errors %}
         <div class="alert alert-danger">
             {% for field in form %}
@@ -14,6 +17,5 @@
             {% endfor %}
         </div>
     {% endif %}
-    <button type="submit">Создать</button>
 </form>
 {% endblock %}

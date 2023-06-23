@@ -32,7 +32,6 @@ class Course(models.Model):
     def __str__(self):
         return self.name_of_course
 
-
     class Meta:
         verbose_name = 'Курс'
         verbose_name_plural = 'Курсы'
@@ -107,3 +106,5 @@ class HeadTeacher(models.Model):
     class Meta:
         verbose_name = 'Заведующий учебной частью'
         verbose_name_plural = "Заведующие учебной частью"
+
+

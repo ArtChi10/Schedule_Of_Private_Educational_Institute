@@ -3,6 +3,8 @@ from .models import AdvUser
 from django.contrib.auth import password_validation
 from django.core.exceptions import ValidationError
 from .apps import user_registered
+from .models import Course
+
 from phonenumber_field.modelfields import PhoneNumberField
 
 
@@ -51,3 +53,9 @@ class RegisterUserForm(forms.ModelForm):
         model = AdvUser
         fields = ('username', 'email', 'phone', 'password1', 'password2', 'last_name', 'first_name',
                   'patronymic', 'send_messages')
+
+
+class CourseForm(forms.ModelForm):
+    class Meta:
+        model = Course
+        fields = ['name_of_course']

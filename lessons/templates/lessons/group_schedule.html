@@ -3,34 +3,65 @@
 {% block title %}Расписание {{ group.name_of_group }}{% endblock %}
 {% block content %}
     <h3>Расписание группы {{ group.name_of_group }}</h3>
+    <div class="d-flex justify-content-end">
+        <a href="{% url 'lessons:lesson_create' %}">
+            <button type="submit" class="btn btn-warning" style="border: 1px solid #000;color: black; text-decoration: none;">Создать занятие</button>
+        </a>
+    </div>
     <br>
-    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ prev_date }}" type="button" class="btn btn-success"> Предыдущая неделя </a>
-    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ n_now_date }}"  type="button" class="btn btn-info"> Сегодня </a>
-    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ next_date }}" type="button" class="btn btn-success"> Следующая неделя </a>
+    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ prev_date }}" type="button" class="btn btn-success">Предыдущая неделя</a>
+    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ n_now_date }}" type="button" class="btn btn-info">Сегодня</a>
+    <a href="{% url 'lessons:group_schedule' group_id=group.id %}?date={{ next_date }}" type="button" class="btn btn-success">Следующая неделя</a>
+    <br>
     <br>
     <div class="row">
+        {% if lessons_for_days %}
+            {% for day, lessons in lessons_for_days.items %}
+                <div class="col-md-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3>{{ day|date:"l" }}</h3>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            {% for lesson in lessons %}
+                                <li class="list-group-item">
+                                    <a class="btn btn-light" data-toggle="collapse" href="#lesson-info-{{ lesson.id }}" aria-expanded="false" aria-controls="lesson-info-{{ lesson.id }}">
+                                        {{ lesson.number_of_slot }}. {{ lesson.lesson_name }} <br> ({{ lesson.teacher }}) {{ lesson.classroom }}
+                                    </a>
+                                <div id="lesson-info-{{ lesson.id }}" class="info collapse">
+                                    {% if lesson.info_for_lesson  %}
+                                         <p>{{ lesson.info_for_lesson }}</p>
+                                    {% endif %}
+                                    <div class="btn-group">
+                                    <a href="{% url 'lessons:lesson_delete' pk=lesson.id  %}"><button type="submit" class="btn btn-danger btn-sm" style="border: 1px solid #000;color: black; text-decoration: none;">Удалить занятие</button></a>
+                                     <form action="{% url 'lessons:lesson_details' pk=lesson.id %}"  method="post">
+                                        {% csrf_token %}
+                                         <button type="submit" class="btn btn-primary btn-sm"  style="border: 1px solid #000; color: black; text-decoration: none;">Изменить занятие</button>
+                                    </form>
+                                    </div>
+                                </div>
+                                </li>
 
-{% if lessons_for_days  %}
-     {% for ell, num in lessons_for_days.items %}
-         <div class="card" style="width: 18rem;">
-            <div class="card-header">
-                <h3>{{ ell|date:"l" }}</h3>
-            </div>
-          <ul class="list-group list-group-flush">
-            {% for el in num %}
-              <li class="list-group-item"> {{ el.number_of_slot }} . {{ el.lesson_name }} ({{ el.teacher }})  {{ el.classroom }}</li>
-                {{ el.date_of_lesson }}
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
             {% endfor %}
-          </ul>
-         </div>
-    {% endfor %}
-    {% else %}
-    <h1>Нет уроков</h1>
-    {% endif %}
+        {% else %}
+            <h1>Нет занятий</h1>
+        {% endif %}
+    </div>
+    <br>
+    <br>
+    <br>
+    <script>
+        const lessonButtons = document.querySelectorAll('.btn-light');
 
-</div>
-<br>
-<br>
-<br>
-
+        lessonButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const lessonInfo = document.querySelector(this.getAttribute('href'));
+                lessonInfo.classList.toggle('show');
+            });
+        });
+    </script>
 {% endblock %}

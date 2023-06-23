@@ -1,0 +1,28 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% block title %}Настройка элементов УП{% endblock %}
+{% block content %}
+    <h2>Создание учебных единиц</h2>
+    <h3>Курсы : </h3>
+    {% if list_of_course %}
+       <h4>{% for el in list_of_course %}
+            {{ el.name_of_course }}
+        {% endfor %}
+       </h4>
+    {% else %}
+    {% endif %}
+    <a href="{% url 'main:create_course' %}">
+            <button type="submit" class="btn btn-warning" style="border: 1px solid #000;color: black; text-decoration: none;">Создать новый курс</button>
+        </a>
+    <h3>Группы : </h3>
+    {% if list_of_group %}
+       <h4>{% for el in list_of_group %}
+            {{ el.name_of_group }}
+        {% endfor %}
+       </h4>
+    {% else %}
+    {% endif %}
+    <a href="{% url 'main:create_course' %}">
+            <button type="submit" class="btn btn-warning" style="border: 1px solid #000;color: black; text-decoration: none;">Создать новую группу</button>
+        </a>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "layout/basic.html" %}
+{% load bootstrap4 %}
+{% block title %} Работа с объявлениями {% endblock %}  <!-- Вставляем нужное название в блок -->
+{% block content %}
+    <h1>Работа с объявлениями</h1>
+    <hr id="line">
+    <div class="d-flex justify-content-end">
+            <a href="{% url 'additional_information:ad_create' %}"><button type="submit" class="btn btn-warning" style="border: 1px solid #000;color: black; text-decoration: none;">Создать новое объявление</button>
+            </a>
+        </div>
+    <h2>Список опубликованных объявлений : </h2>
+    <div class="row"> <!-- удобно распределяет карточки в зависимости от размера экрана -->
+            {% if advs %}
+                {% for el in advs %}
+                        <div class="teaser">
+                            <h4>{{ el.title }}</h4>
+                            <h6>{{ el.published|date:"d.m.Y" }}</h6>
+                            <div class="info">
+                                <p>{{ el.content }}</p>
+                                <div class="btn-group"
+                                <a href="{% url 'additional_information:ad_delete' pk=el.id  %}"><button type="submit" class="btn btn-danger btn-sm" style="border: 1px solid #000;color: black; text-decoration: none;">Удалить объявление</button></a>
+
+                              <form action="{% url 'additional_information:details_view' pk=el.id %}" method="post">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-info btn-sm"  style="border: 1px solid #000; color: black; text-decoration: none;">Изменить объявление</button>
+                    </form>
+                            </div>
+                            </div>
+                        </div>
+
+                {% endfor %} <!-- Закрываем цикл -->
+            {% else %}  <!-- В случае есть таблица объявлений пуста-->
+                <h2 style="margin-left: 20px;">Объявлений пока нет</h2> <!-- Текст сообщения -->
+            {% endif %}
+            </div>
+{% endblock %}
