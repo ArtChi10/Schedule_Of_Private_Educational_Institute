@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from .models import AdvUser
 from django.http import HttpResponse, Http404
 from django.template import TemplateDoesNotExist
 from django.template.loader import get_template
@@ -154,10 +155,6 @@ def student_required(view_func):
 @head_teacher_required
 def head_check(request):
     return render(request, 'main/headcheck.html')
-
-
-from django.shortcuts import render
-from .models import AdvUser
 
 
 def user_search_view(request):
